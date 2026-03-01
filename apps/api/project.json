@@ -10,7 +10,8 @@
             "{workspaceRoot}/proto/**/*.go",
             "{workspaceRoot}/pkg/**/*.go",
             "{workspaceRoot}/main.go",
-            "{workspaceRoot}/internal/**/*.yaml"
+            "{workspaceRoot}/internal/**/*.yaml",
+            "{workspaceRoot}/internal/**/*.json"
         ],
         "runtime": [
             "sources",
@@ -65,6 +66,7 @@
                 "generate",
                 "build-console"
             ],
+            "cache": true,
             "command": "bash -c 'CGO_ENABLED=0 go build -o .artifacts/bin/$(go env GOOS)/$(go env GOARCH)/zitadel.local -ldflags=\"-s -w\"'",
             "inputs": [
                 {
@@ -81,6 +83,35 @@
             "outputs": [
                 "{workspaceRoot}/.artifacts/bin/*/*/zitadel.local"
             ]
+        },
+        "build-linux": {
+            "description": "Compiles the Go-based API backend into a Linux executable binary for Docker packaging.",
+            "dependsOn": [
+                "generate",
+                "build-console"
+            ],
+            "cache": true,
+            "command": "bash -c 'CGO_ENABLED=0 GOOS=linux go build -o .artifacts/bin/linux/$(go env GOARCH)/zitadel.local -ldflags=\"-s -w\"'",
+            "inputs": [
+                {
+                    "runtime": "go env GOARCH"
+                },
+                "runtime",
+                {
+                    "dependentTasksOutputFiles": "internal/api/ui/console/static/**/*"
+                }
+            ],
+            "outputs": [
+                "{workspaceRoot}/.artifacts/bin/linux/*/zitadel.local"
+            ]
+        },
+        "pack": {
+            "description": "Builds a local Docker image for the ZITADEL API (zitadel/zitadel:local). Requires Docker daemon.",
+            "dependsOn": [
+                "build-linux"
+            ],
+            "command": "bash -c 'docker build --build-arg TARGETPLATFORM=linux/$(go env GOARCH) --build-arg BINARY=zitadel.local -f apps/api/Dockerfile -t zitadel/zitadel:local .'",
+            "cache": false
         },
         "generate": {
             "description": "Generates the code needed to start a full-featured API: gRPC and OpenAPI stubs, static files for the embedded login v1, asset routes and documentation.",
@@ -132,6 +163,7 @@
             "dependsOn": [
                 "generate"
             ],
+            "cache": true,
             "command": "go test -race -coverprofile=profile.api.test-unit.cov -coverpkg=./internal/...,./backend/...  ./...",
             "inputs": [
                 "sources",
@@ -260,7 +292,6 @@
                     "GOBIN=${PWD}/.artifacts/bin/$(go env GOOS)/$(go env GOARCH) go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@v2.22.0",
                     "GOBIN=${PWD}/.artifacts/bin/$(go env GOOS)/$(go env GOARCH) go install github.com/envoyproxy/protoc-gen-validate@v1.1.0",
                     "GOBIN=${PWD}/.artifacts/bin/$(go env GOOS)/$(go env GOARCH) go install connectrpc.com/connect/cmd/protoc-gen-connect-go@v1.18.1",
-                    "GOBIN=${PWD}/.artifacts/bin/$(go env GOOS)/$(go env GOARCH) go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.35.1",
                     "GOBIN=${PWD}/.artifacts/bin/$(go env GOOS)/$(go env GOARCH) go install ./internal/protoc/protoc-gen-authoption",
                     "GOBIN=${PWD}/.artifacts/bin/$(go env GOOS)/$(go env GOARCH) go install ./internal/protoc/protoc-gen-zitadel"
                 ]
@@ -342,9 +373,12 @@
                     "runtime": "go env GOARCH"
                 },
                 "{workspaceRoot}/internal/statik/generate.go",
+                "{workspaceRoot}/internal/static/**/*",
                 "{workspaceRoot}/internal/notification/statik/generate.go",
+                "{workspaceRoot}/internal/notification/static/**/*",
                 "{workspaceRoot}/internal/api/ui/login/static/resources/generate.go",
-                "{workspaceRoot}/internal/api/ui/login/statik/generate.go"
+                "{workspaceRoot}/internal/api/ui/login/statik/generate.go",
+                "{workspaceRoot}/internal/api/ui/login/static/**/*"
             ],
             "outputs": [
                 "{workspaceRoot}/internal/statik/statik.go",
@@ -361,7 +395,7 @@
             "command": "mkdir -p apps/docs/content/apis/assets && go run internal/api/assets/generator/asset_generator.go -directory=internal/api/assets/generator/ -assets=apps/docs/content/apis/assets/assets.mdx",
             "cache": true,
             "inputs": [
-                "{workspaceRoot}/internal/api/assets/generator/asset_generator.go"
+                "{workspaceRoot}/internal/api/assets/generator/**/*"
             ],
             "outputs": [
                 "{workspaceRoot}/internal/api/assets/authz.go",

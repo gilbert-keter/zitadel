@@ -39,15 +39,6 @@ func Test_reduceInstanceFeature(t *testing.T) {
 			expected: &InstanceFeatures{LoginDefaultOrg: gu.Ptr(true)},
 		},
 		{
-			name: "token exchange",
-			args: args{
-				features: &InstanceFeatures{},
-				key:      feature.KeyTokenExchange,
-				value:    true,
-			},
-			expected: &InstanceFeatures{TokenExchange: gu.Ptr(true)},
-		},
-		{
 			name: "user schema",
 			args: args{
 				features: &InstanceFeatures{},
@@ -84,15 +75,6 @@ func Test_reduceInstanceFeature(t *testing.T) {
 			expected: &InstanceFeatures{OIDCSingleV1SessionTermination: gu.Ptr(true)},
 		},
 		{
-			name: "enable back channel logout",
-			args: args{
-				features: &InstanceFeatures{},
-				key:      feature.KeyEnableBackChannelLogout,
-				value:    true,
-			},
-			expected: &InstanceFeatures{EnableBackChannelLogout: gu.Ptr(true)},
-		},
-		{
 			name: "login v2",
 			args: args{
 				features: &InstanceFeatures{},
@@ -114,7 +96,7 @@ func Test_reduceInstanceFeature(t *testing.T) {
 			name: "management console uses v2 user api",
 			args: args{
 				features: &InstanceFeatures{},
-				key:      feature.KeyManagementConsoleUseV2UserApi,
+				key:      feature.KeyConsoleUseV2UserApi,
 				value:    true,
 			},
 			expected: &InstanceFeatures{ManagementConsoleUseV2UserApi: gu.Ptr(true)},

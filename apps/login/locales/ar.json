@@ -47,6 +47,7 @@
       "userNotFound": "المستخدم غير موجود في النظام",
       "couldNotCreateSession": "تعذر إنشاء جلسة للمستخدم",
       "initialUserNotSupported": "المستخدم الأولي غير مدعوم",
+      "localAuthenticationNotAllowed": "المصادقة المحلية غير مسموح بها! اتصل بالمسؤول لمزيد من المعلومات.",
       "usernamePasswordNotAllowed": "اسم المستخدم وكلمة المرور غير مسموح بهما! اتصل بالمسؤول لمزيد من المعلومات.",
       "passkeysNotAllowed": "مفاتيح المرور غير مسموح بها! اتصل بالمسؤول لمزيد من المعلومات.",
       "couldNotFindIdentityProvider": "تعذر العثور على مزود الهوية.",
@@ -108,14 +109,17 @@
       "description": "تعيين كلمة المرور لحسابك",
       "submit": "متابعة",
       "labels": {
+        "currentPassword": "كلمة المرور الحالية",
         "newPassword": "كلمة المرور الجديدة",
         "confirmPassword": "تأكيد كلمة المرور"
       },
       "required": {
+        "currentPassword": "عليك تقديم كلمة المرور الحالية!",
         "newPassword": "عليك تقديم كلمة مرور جديدة!",
         "confirmPassword": "هذا الحقل مطلوب"
       },
       "errors": {
+        "currentPasswordInvalid": "كلمة المرور الحالية غير صحيحة.",
         "couldNotChangePassword": "تعذر تغيير كلمة المرور",
         "couldNotVerifyPassword": "تعذر التحقق من كلمة المرور",
         "unknownError": "خطأ غير معروف"

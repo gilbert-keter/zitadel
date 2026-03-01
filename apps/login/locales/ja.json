@@ -47,7 +47,7 @@
       "userNotFound": "ユーザーがシステムに見つかりません",
       "couldNotCreateSession": "ユーザーのセッションを作成できませんでした",
       "initialUserNotSupported": "初期ユーザーはサポートされていません",
-      "usernamePasswordNotAllowed": "ユーザー名とパスワードは許可されていません！詳細については管理者にお問い合わせください。",
+      "localAuthenticationNotAllowed": "ローカル認証は許可されていません！ 詳細については管理者に問い合わせてください。",
       "passkeysNotAllowed": "パスキーは許可されていません！詳細については管理者にお問い合わせください。",
       "couldNotFindIdentityProvider": "IDプロバイダーが見つかりませんでした。",
       "userNotActive": "ユーザーはアクティブではありません。詳細については管理者にお問い合わせください。"
@@ -101,14 +101,17 @@
       "description": "アカウントのパスワードを設定してください",
       "submit": "続行",
       "labels": {
+        "currentPassword": "現在のパスワード",
         "newPassword": "新しいパスワード",
         "confirmPassword": "パスワード確認"
       },
       "required": {
+        "currentPassword": "現在のパスワードを入力してください！",
         "newPassword": "新しいパスワードを入力してください！",
         "confirmPassword": "必須項目です"
       },
       "errors": {
+        "currentPasswordInvalid": "現在のパスワードが正しくありません。",
         "couldNotChangePassword": "パスワードを変更できませんでした",
         "couldNotVerifyPassword": "パスワードを確認できませんでした",
         "unknownError": "不明なエラー"
